@@ -8,12 +8,12 @@ import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
 import { 
     Code, 
+    FileInput, 
     ImageIcon, 
     LayoutDashboard, 
     MessageSquare, 
     Music, 
-    Settings, 
-    VideoIcon 
+    Settings
 } from "lucide-react"
 
 const montserrat = Montserrat({ 
@@ -41,22 +41,22 @@ const routes = [
         color: "text-pink-700",
     },
     {
-        label: "Video Generation",
-        icon: VideoIcon,
-        href: "/video",
-        color: "text-orange-700",
-    },
-    {
-        label: "Music Generation",
-        icon: Music,
-        href: "/music",
-        color: "text-emerald-700",
-    },
-    {
         label: "Code Generation",
         icon: Code,
         href: "/code",
         color: "text-green-700",
+    },
+    {
+        label: "Document Summarization",
+        icon: FileInput,
+        href: "/video",
+        color: "text-orange-700",
+    },
+    {
+        label: "Audio Summarization",
+        icon: Music,
+        href: "/music",
+        color: "text-yellow-500",
     },
     {
         label: "Settings",

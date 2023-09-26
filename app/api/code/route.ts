@@ -1,15 +1,14 @@
 import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
-import { OpenAI } from "openai";
 
-const openai = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY,
-  });
+// const openai = new OpenAI({
+//     apiKey: process.env.OPENAI_API_KEY,
+//   });
 
-const instructionMessage: OpenAI.Chat.ChatCompletionMessage = {
-  role: "system",
-  content: "You are a code generator. You must anwer only in markdown code snippets. Use code comments for explanations."
-}
+// const instructionMessage: OpenAI.Chat.ChatCompletionMessage = {
+//   role: "system",
+//   content: "You are a code generator. You must anwer only in markdown code snippets. Use code comments for explanations."
+// }
 
 export async function POST(
   req: Request
@@ -23,20 +22,20 @@ export async function POST(
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    if (!openai.apiKey) {
-      return new NextResponse("OpenAI API Key not configured.", { status: 500 });
-    }
+    // if (!openai.apiKey) {
+    //   return new NextResponse("OpenAI API Key not configured.", { status: 500 });
+    // }
 
     if (!messages) {
       return new NextResponse("Messages are required", { status: 400 });
     }
 
-    const response = await openai.chat.completions.create({
-      model: "gpt-3.5-turbo",
-      messages: [instructionMessage, ...messages]
-    });
+    // const response = await openai.chat.completions.create({
+    //   model: "gpt-3.5-turbo",
+    //   messages: [instructionMessage, ...messages]
+    // });
 
-    return NextResponse.json(response.choices[0].message);
+    // return NextResponse.json(response.choices[0].message);
   } catch (error) {
     console.log('[CODE_ERROR]', error);
     return new NextResponse("Internal Error", { status: 500 });
