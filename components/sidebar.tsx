@@ -9,10 +9,10 @@ import { cn } from "@/lib/utils"
 import { 
     Code, 
     FileInput, 
+    Headphones, 
     ImageIcon, 
     LayoutDashboard, 
     MessageSquare, 
-    Music, 
     Settings
 } from "lucide-react"
 
@@ -35,28 +35,28 @@ const routes = [
         color: "text-violet-500",
     },
     {
-        label: "Image Generation",
-        icon: ImageIcon,
-        href: "/image",
-        color: "text-pink-700",
-    },
-    {
         label: "Code Generation",
         icon: Code,
         href: "/code",
         color: "text-green-700",
     },
     {
+        label: "Image Generation",
+        icon: ImageIcon,
+        href: "/image",
+        color: "text-pink-700",
+    },
+    {
         label: "Document Summarization",
         icon: FileInput,
-        href: "/video",
-        color: "text-orange-700",
+        href: "/document",
+        color: "text-amber-600",
     },
     {
         label: "Audio Summarization",
-        icon: Music,
-        href: "/music",
-        color: "text-yellow-500",
+        icon: Headphones,
+        href: "/audio",
+        color: "text-teal-500",
     },
     {
         label: "Settings",
