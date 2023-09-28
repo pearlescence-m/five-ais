@@ -1,4 +1,6 @@
 import { auth } from '@clerk/nextjs'
+import { writeFileSync } from "fs";
+import { v4 as uuidv4 } from 'uuid';
 import { NextResponse } from 'next/server'
 import { HfInference } from '@huggingface/inference'
 
@@ -25,30 +27,27 @@ export async function POST(req: Request) {
     const imgRes = Number(resolution.split('x')[0])
 
     const response = await inference.textToImage({
-      // headers: {
-      //   Accept: "application/json",
-      //   "Content-Type": "application/json",
-      //   }
-      // ,
-      // data: 
-      // {
-        model: 'stabilityai/stable-diffusion-2-1',
-        inputs: prompt,
-        parameters: {
-          height: imgRes,
-          width: imgRes,
-        },
+      model: 'runwayml/stable-diffusion-v1-5',
+      inputs: prompt,
+      parameters: {
+        height: imgRes,
+        width: imgRes,
       },
-      // }
-    )
-    // const url = URL.createObjectURL(response);
-    // const buffer = Buffer.from(await response.arrayBuffer())
-    // response.type('Content-Type', response.type)
-    // response.setHeader('Content-Length', buffer.length)
-    // response.end(buffer)
+    })
+    
+    const buf = await response.arrayBuffer();
+    console.log(response.type)
+    const fileName = `${uuidv4()}.jpeg`;
+    const filePath = `public/${fileName}`
+    writeFileSync(filePath, new Uint8Array(buf), {mode: '0777'});
+    console.log(`Done writing image to file ${fileName}`);
 
-    // console.log(url)
-    return NextResponse.json(response)
+    // const resp = NextResponse.json(buffer)
+    // resp.headers.set('Content-Type', response.type)
+    // resp.headers.set('Content-Length', String(buffer.length))
+    // console.log(resp)
+
+    return NextResponse.json(fileName)
   } catch (error) {
     console.log('[IMAGE_ERROR]', error)
     return new NextResponse('Internal Error', { status: 500 })

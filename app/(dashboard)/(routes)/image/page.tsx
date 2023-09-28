@@ -17,7 +17,7 @@ import { Empty } from '@/components/empty'
 import { Loader } from '@/components/loader'
 
 import { resolutionOptions, formSchema } from './constants'
-import { Card, CardFooter } from '@/components/ui/card'
+import { Card } from '@/components/ui/card'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 
 const ImagePage = () => {
@@ -41,24 +41,10 @@ const ImagePage = () => {
         resolution: values.resolution
       }
       );
-      // const img = URL.createObjectURL(new Blob([response.data]))
-      // console.log(img)
-      // Check if the response is a valid blob.
 
-      // console.log(response.data.blob())
+      console.log(response.data)
 
-
-
-      const imgURL = URL.createObjectURL(response.data);
-      console.log(imgURL)
-        // Set the URL as the new image source.
-      // setImage(imgURL);
-
-      // const buffer = Buffer.from(response.data);
-      // console.log(buffer)
-      // const attach = new AttachmentBuilder(buffer, { name: 'result.jpeg' });
-      // // const image = cv.imdecode(buffer);
-      // setImage(img);
+      setImage(response.data);
       form.reset();
     } catch (error: any) {
       console.log(error)
@@ -152,18 +138,8 @@ const ImagePage = () => {
           <div className="w-auto h-auto">
               <Card className="rounded-lg overflow-hidden">
                 <div className="relative aspect-square">
-                  <img alt="Generated" src={image} />
+                  <Image fill alt="Generated" src={"/"+image} />
                 </div>
-                {/* <CardFooter className="p-2">
-                  <Button
-                    onClick={() => window.open(image)}
-                    variant="secondary"
-                    className="w-full"
-                  >
-                    <Download className="h-4 w-4 mr-2" />
-                    Download
-                  </Button>
-                </CardFooter> */}
               </Card>
           </div>
           )}
