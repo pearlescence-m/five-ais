@@ -39,7 +39,7 @@ const ConversationPage = () => {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      const userMessage = {
+      const userMessage: CompletionMessage = {
         role: 'user',
         content: values.prompt,
       }
@@ -47,7 +47,7 @@ const ConversationPage = () => {
         messages: userMessage,
       })
 
-      const responseMessage = {
+      const responseMessage: CompletionMessage = {
         role: 'bot',
         content: response.data.generated_text,
       }
