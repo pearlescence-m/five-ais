@@ -16,19 +16,18 @@ import { Button } from '@/components/ui/button'
 import { Empty } from '@/components/empty'
 import { Loader } from '@/components/loader'
 
-import { resolutionOptions, amountOptions, formSchema } from './constants'
-import { Card, CardFooter } from '@/components/ui/card'
+import { resolutionOptions, formSchema } from './constants'
+import { Card } from '@/components/ui/card'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 
 const ImagePage = () => {
   const router = useRouter()
-  const [images, setImages] = useState<string[]>([])
+  const [image, setImage] = useState<string>("")
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       prompt: '',
-      amount: '1',
       resolution: '512x512',
     },
   })
@@ -36,11 +35,16 @@ const ImagePage = () => {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      setImages([]);
-      const response = await axios.post('/api/image');
-      const urls = response.data.map((image: { url: string }) => image.url);
+      setImage("");
+      const imgRes = Number(values.resolution.split('x')[0])
 
-      setImages(urls);
+      const response = await axios.post('/api/image',  {
+        prompt: values.prompt,
+        resolution: imgRes
+      }
+      );
+
+      setImage(response.data);
       form.reset();
     } catch (error: any) {
       console.log(error)
@@ -80,36 +84,6 @@ const ImagePage = () => {
                   </FormItem>
                 )}
               />
-              <FormField
-              control={form.control}
-              name="amount"
-              render={({ field }) => (
-                <FormItem className="col-span-12 lg:col-span-2">
-                  <Select 
-                    disabled={isLoading} 
-                    onValueChange={field.onChange} 
-                    value={field.value} 
-                    defaultValue={field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue defaultValue={field.value} />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {amountOptions.map((option) => (
-                        <SelectItem 
-                          key={option.value} 
-                          value={option.value}
-                        >
-                          {option.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </FormItem>
-              )}
-            />
             <FormField
               control={form.control}
               name="resolution"
@@ -157,28 +131,18 @@ const ImagePage = () => {
               <Loader />
             </div>
           )}
-          {images.length === 0 && !isLoading && (
-            <Empty label="No images generated." />
+          {image.length === 0 && !isLoading && (
+            <Empty label="No image generated." />
           )}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-8">
-            {images.map((src) => (
-              <Card key={src} className="rounded-lg overflow-hidden">
+          {image.length != 0 && (
+          <div className="grid grid-cols-2 grid-rows-1 w-auto h-auto gap-4 m-8">
+              <Card className="rounded-lg overflow-hidden">
                 <div className="relative aspect-square">
-                  <Image fill alt="Generated" src={src} />
+                  <Image fill alt="Generated" src={"/"+image} />
                 </div>
-                <CardFooter className="p-2">
-                  <Button
-                    onClick={() => window.open(src)}
-                    variant="secondary"
-                    className="w-full"
-                  >
-                    <Download className="h-4 w-4 mr-2" />
-                    Download
-                  </Button>
-                </CardFooter>
               </Card>
-            ))}
           </div>
+          )}
         </div>
       </div>
     </div>

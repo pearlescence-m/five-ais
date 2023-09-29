@@ -7,8 +7,8 @@ import {
   MessageSquare,
   Code, 
   ImageIcon, 
-  Music, 
-  VideoIcon 
+  FileInput,
+  Headphones,
 } from "lucide-react"
 import { useRouter } from "next/navigation";
 
@@ -21,6 +21,13 @@ const tools = [
     href: "/conversation"
   },
   {
+    label: 'Code Generation',
+    icon: Code,
+    color: "text-green-700",
+    bgColor: "bg-green-700/10",
+    href: '/code',
+  },
+  {
     label: 'Image Generation',
     icon: ImageIcon,
     color: "text-pink-700",
@@ -28,25 +35,18 @@ const tools = [
     href: '/image',
   },
   {
-    label: 'Video Generation',
-    icon: VideoIcon,
-    color: "text-orange-700",
-    bgColor: "bg-orange-700/10",
-    href: '/video',
+    label: "Document Summarization",
+    icon: FileInput,
+    color: "text-amber-600",
+    bgColor: "bg-amber-600/10",
+    href: '/document',
   },
   {
-    label: 'Music Generation',
-    icon: Music,
-    href: '/music',
-    color: "text-emerald-500",
-    bgColor: "bg-emerald-500/10",
-  },
-  {
-    label: 'Code Generation',
-    icon: Code,
-    color: "text-green-700",
-    bgColor: "bg-green-700/10",
-    href: '/code',
+    label: "Audio Summarization",
+    icon: Headphones,
+    href: '/audio',
+    color: "text-teal-500",
+    bgColor: "bg-teal-500/10",
   },
 ]
 
