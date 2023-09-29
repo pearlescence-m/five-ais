@@ -36,13 +36,13 @@ const ImagePage = () => {
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       setImage("");
+      const imgRes = Number(values.resolution.split('x')[0])
+
       const response = await axios.post('/api/image',  {
         prompt: values.prompt,
-        resolution: values.resolution
+        resolution: imgRes
       }
       );
-
-      console.log(response.data)
 
       setImage(response.data);
       form.reset();
@@ -135,7 +135,7 @@ const ImagePage = () => {
             <Empty label="No image generated." />
           )}
           {image.length != 0 && (
-          <div className="w-auto h-auto">
+          <div className="grid grid-cols-2 grid-rows-1 w-auto h-auto gap-4 m-8">
               <Card className="rounded-lg overflow-hidden">
                 <div className="relative aspect-square">
                   <Image fill alt="Generated" src={"/"+image} />

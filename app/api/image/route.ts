@@ -24,28 +24,22 @@ export async function POST(req: Request) {
       return new NextResponse('Resolution is required', { status: 400 })
     }
 
-    const imgRes = Number(resolution.split('x')[0])
-
     const response = await inference.textToImage({
       model: 'runwayml/stable-diffusion-v1-5',
       inputs: prompt,
       parameters: {
-        height: imgRes,
-        width: imgRes,
+        height: resolution,
+        width: resolution,
       },
     })
-    
+    console.log(response)
     const buf = await response.arrayBuffer();
-    console.log(response.type)
+    console.log(buf)
+    
     const fileName = `${uuidv4()}.jpeg`;
     const filePath = `public/${fileName}`
     writeFileSync(filePath, new Uint8Array(buf), {mode: '0777'});
     console.log(`Done writing image to file ${fileName}`);
-
-    // const resp = NextResponse.json(buffer)
-    // resp.headers.set('Content-Type', response.type)
-    // resp.headers.set('Content-Length', String(buffer.length))
-    // console.log(resp)
 
     return NextResponse.json(fileName)
   } catch (error) {
