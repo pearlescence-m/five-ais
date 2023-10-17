@@ -45,7 +45,8 @@ const ImagePage = () => {
       );
 
       setImage(response.data);
-      form.reset();
+      console.log("Image link is ", image)
+
     } catch (error: any) {
       console.log(error)
     } finally {
@@ -138,7 +139,7 @@ const ImagePage = () => {
           <div className="grid grid-cols-2 grid-rows-1 w-auto h-auto gap-4 m-8">
               <Card className="rounded-lg overflow-hidden">
                 <div className="relative aspect-square">
-                  <Image fill alt="Generated" src={"/"+image} />
+                  <Image fill alt="Generated" src={image} />
                 </div>
               </Card>
           </div>

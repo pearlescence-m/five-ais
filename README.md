@@ -1,7 +1,7 @@
 # FiveAIs
 _Crafting a state-of-the-art AI SaaS Platform with five AI tools - not only be efficient but also user-centric._
 
-![Alt text](/public/image.png)
+![Alt text](/public/main.png)
 
 My main goal for this application was to learn how to use AI generative models from HuggingFace in a SaaS platform using Next.js 13, React, Tailwind, Clerk. The app was created partly based on [this tutorial](https://github.com/AntonioErdeljac/next13-ai-saas/tree/master) with my own modifications.
 
@@ -23,7 +23,6 @@ My main goal for this application was to learn how to use AI generative models f
 
 **High Priority:**
 
-* Integration with Firebase Storage and Hosting
 * Finishing up document summarization backend
 * Adding audio file summarization
 
