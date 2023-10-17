@@ -23,7 +23,6 @@ My main goal for this application was to learn how to use AI generative models f
 
 **High Priority:**
 
-* Integration with Firebase Storage and Hosting
 * Finishing up document summarization backend
 * Adding audio file summarization
 

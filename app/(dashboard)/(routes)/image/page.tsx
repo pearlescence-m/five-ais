@@ -18,11 +18,17 @@ import { Loader } from '@/components/loader'
 
 import { resolutionOptions, formSchema } from './constants'
 import { Card } from '@/components/ui/card'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 
 const ImagePage = () => {
   const router = useRouter()
-  const [image, setImage] = useState<string>("")
+  const [image, setImage] = useState<string>('')
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -35,17 +41,15 @@ const ImagePage = () => {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      setImage("");
+      setImage('')
       const imgRes = Number(values.resolution.split('x')[0])
 
-      const response = await axios.post('/api/image',  {
+      const response = await axios.post('/api/image', {
         prompt: values.prompt,
-        resolution: imgRes
-      }
-      );
+        resolution: imgRes,
+      })
 
-      setImage(response.data);
-      form.reset();
+      setImage(response.data)
     } catch (error: any) {
       console.log(error)
     } finally {
@@ -84,35 +88,32 @@ const ImagePage = () => {
                   </FormItem>
                 )}
               />
-            <FormField
-              control={form.control}
-              name="resolution"
-              render={({ field }) => (
-                <FormItem className="col-span-12 lg:col-span-2">
-                  <Select 
-                    disabled={isLoading} 
-                    onValueChange={field.onChange} 
-                    value={field.value} 
-                    defaultValue={field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue defaultValue={field.value} />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {resolutionOptions.map((option) => (
-                        <SelectItem 
-                          key={option.value} 
-                          value={option.value}
-                        >
-                          {option.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </FormItem>
-              )}
+              <FormField
+                control={form.control}
+                name="resolution"
+                render={({ field }) => (
+                  <FormItem className="col-span-12 lg:col-span-2">
+                    <Select
+                      disabled={isLoading}
+                      onValueChange={field.onChange}
+                      value={field.value}
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue defaultValue={field.value} />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {resolutionOptions.map((option) => (
+                          <SelectItem key={option.value} value={option.value}>
+                            {option.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </FormItem>
+                )}
               />
               <Button
                 className="col-span-12 lg:col-span-2 w-full"
@@ -135,13 +136,13 @@ const ImagePage = () => {
             <Empty label="No image generated." />
           )}
           {image.length != 0 && (
-          <div className="grid grid-cols-2 grid-rows-1 w-auto h-auto gap-4 m-8">
+            <div className="grid grid-cols-2 grid-rows-1 w-auto h-auto gap-4 m-8">
               <Card className="rounded-lg overflow-hidden">
                 <div className="relative aspect-square">
-                  <Image fill alt="Generated" src={"/"+image} />
+                  <Image fill alt="Generated" src={image} />
                 </div>
               </Card>
-          </div>
+            </div>
           )}
         </div>
       </div>

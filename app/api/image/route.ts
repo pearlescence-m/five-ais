@@ -1,8 +1,9 @@
 import { auth } from '@clerk/nextjs'
-import { writeFileSync } from "fs";
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from 'uuid'
 import { NextResponse } from 'next/server'
 import { HfInference } from '@huggingface/inference'
+import { storage } from '@/firebase'
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
 
 const inference = new HfInference(process.env.HF_ACCESS_TOKEN)
 
@@ -32,16 +33,17 @@ export async function POST(req: Request) {
         width: resolution,
       },
     })
-    console.log(response)
-    const buf = await response.arrayBuffer();
-    console.log(buf)
-    
-    const fileName = `${uuidv4()}.jpeg`;
-    const filePath = `public/${fileName}`
-    writeFileSync(filePath, new Uint8Array(buf), {mode: '0777'});
-    console.log(`Done writing image to file ${fileName}`);
 
-    return NextResponse.json(fileName)
+    const buf = await response.arrayBuffer()
+
+    const fileName = `${uuidv4()}.jpeg`
+    const imageRef = ref(storage, `images/${fileName}`)
+
+    await uploadBytes(imageRef, buf)
+    const url = await getDownloadURL(imageRef)
+
+    return NextResponse.json(url)
+    
   } catch (error) {
     console.log('[IMAGE_ERROR]', error)
     return new NextResponse('Internal Error', { status: 500 })
